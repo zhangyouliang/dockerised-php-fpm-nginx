@@ -1,0 +1,22 @@
+version: '3'
+services:
+  web:
+    build: ./nginx
+    image: jiyash-view-nginx:latest
+    ports:
+    - 8888:80
+    restart: always
+    volumes:
+    - ./code:/var/www/html/
+    - phpsocket:/var/run:rw
+    links:
+    - php-fpm
+  php-fpm:
+    build: ./php-fpm
+    image: jiyash-view-php-fpm:latest
+    volumes:
+    - ./code:/var/www/html/ # Must be consistent with the nginx php script path
+    - ./php-fpm/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+    - phpsocket:/var/run:rw
+volumes:
+  phpsocket:

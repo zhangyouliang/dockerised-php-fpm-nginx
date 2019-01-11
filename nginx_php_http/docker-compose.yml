@@ -1,0 +1,19 @@
+version: '3'
+services:
+  web:
+    build: ./nginx
+    image: jiyash-view-nginx:latest
+    ports:
+    - 8888:80
+    restart: always
+    volumes:
+    - ./code:/var/www/html/
+    links:
+    - php-fpm
+  php-fpm:
+    build: ./php-fpm
+    image: jiyash-view-php-fpm:latest
+    ports:
+    - 9000:9000
+    volumes:
+    - ./code:/var/www/html/
